@@ -83,14 +83,14 @@ def setInfo(String app_url, String id) {
 
 def installChild(data){
     for(def i=0; i<data.count; i++){
-        def label = "Tuya Power Strip Child " + (i+1) 
+        def label = data.name + " #" + (i+1) 
         def componentName = "child-" + (i+1)
         def childDevice =  addChildDevice("Tuya Power Strip Child", ("tuya-connector-" + state.id  + "-" + (i+1)) , null, [completedSetup: true, label: label, componentName: componentName, componentLabel: componentName, isComponent: false])
         childDevice.setID((i+1).toString())
     }
     
     if(data.usb){
-    	def label = "Tuya Power Strip Child USB"
+    	def label = data.name + " # USB"
         def componentName = "child-usb"
         def childDevice =  addChildDevice("Tuya Power Strip Child", "tuya-connector-" + state.id + "-7" , null, [completedSetup: true, label: label, componentName: componentName, componentLabel: "child-usb", isComponent: false])
         childDevice.setID("7")
