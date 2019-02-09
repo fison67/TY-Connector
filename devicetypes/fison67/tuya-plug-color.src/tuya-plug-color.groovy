@@ -42,6 +42,9 @@ metadata {
         
         command "ledOn"
         command "ledOff"
+        
+        command "setTimer", ["number"]
+        command "stop"
 	}
 
 	simulator { }
@@ -51,6 +54,7 @@ metadata {
         input name: "meterIDX", title:"Meter Index" , type: "number", required: false
         input name: "energyIDX", title:"Energy Index" , type: "number", required: false
         input name: "ledIDX", title:"LED Index" , type: "number", required: false
+        input name: "timerIDX", title:"Timer Index" , type: "number", required: false
 	}
     
 	tiles {
@@ -81,8 +85,17 @@ metadata {
         valueTile("energy", "device.energy", width:2, height:2, inactiveLabel: false, decoration: "flat" ) {
         	state "energy", label: 'Total\n${currentValue}kWh', defaultState: true
         }
+        valueTile("timer_label", "device.leftTime", decoration: "flat", width: 4, height: 1) {
+            state "default", label:'Set a Timer\n${currentValue}'
+        }
+        controlTile("time", "device.time", "slider", height: 1, width: 1, range:"(0..120)") {
+	    	state "time", action:"setTimer"
+		}
+        standardTile("tiemr0", "device.timeRemaining") {
+			state "default", label: "OFF", action: "stop", icon:"st.Health & Wellness.health7", backgroundColor:"#c7bbc9"
+		}
         main(["switch"])
-  		details(["switch", "led", "power", "energy"])
+  		details(["switch", "led", "power", "energy", "timer_label", "time", "tiemr0"])
 	}
 }
 
@@ -111,6 +124,9 @@ def setStatus(data){
     if(ledIDX > 0){
     	sendEvent(name:"led", value: (data[ledIDX.toString()] ? "on" : "off"))
     }
+    if(timerIDX > 0){
+    	sendEvent(name:"led", value: (data[ledIDX.toString()] ? "on" : "off"))
+    }
   
     def now = new Date().format("yyyy-MM-dd HH:mm:ss", location.timeZone)
     sendEvent(name: "lastCheckin", value: now, displayed: false)
@@ -136,9 +152,13 @@ def ledOff(){
     processCommand("power", "off", ledIDX.toString())
 }
 
-def timer(data, second){
-	log.debug "child Timer >> ${data} >> ${second} second"
-    processCommand("timer", second, data)
+def setTimer(second){
+	log.debug "child Timer >> ${second} second"
+    processCommand("timer", second, timerIDX.toString())
+}
+
+def stop(){
+	processCommand("timer", 0, timerIDX.toString())
 }
 
 def processCommand(cmd, data, idx){
