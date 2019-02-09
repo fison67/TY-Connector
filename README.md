@@ -8,6 +8,9 @@ If Tuya Connector is installed, virtual devices are registered automatically by 
 
 You don't have to do anything to add Tuya devices in SmartThings IDE.
 
+## Docker
+fison67/ty-connector:0.0.1</br>
+fison67/ty-connector-rasp:0.0.1</br>
 
 ## Donation
 If this project helps you, you can give me a cup of coffee<br/>
