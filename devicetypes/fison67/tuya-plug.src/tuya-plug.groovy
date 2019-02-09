@@ -44,6 +44,7 @@ metadata {
 
 	preferences {
         input name: "meterIDX", title:"Meter Index" , type: "number", required: false
+        input name: "energyIDX", title:"Energy Index" , type: "number", required: false
 	}
     
 	tiles {
@@ -88,7 +89,10 @@ def setStatus(data){
     sendEvent(name: "switch", value: (data["1"] ? "on" : "off"))
     
     if(meterIDX > 0){
-    	sendEvent(name:"power", value: data[meterIDX.toString()] / 100)
+    	sendEvent(name:"power", value: data[meterIDX.toString()] / 10)
+    }
+    if(energyIDX > 0){
+    	sendEvent(name:"energy", value: data[energyIDX.toString()] / 10)
     }
   
     def now = new Date().format("yyyy-MM-dd HH:mm:ss", location.timeZone)
