@@ -43,6 +43,7 @@ metadata {
 	simulator { }
 
 	preferences {
+        input name: "powerIDX", title:"Power Index" , type: "number", required: false, defaultValue: 1
         input name: "meterIDX", title:"Meter Index" , type: "number", required: false
         input name: "energyIDX", title:"Energy Index" , type: "number", required: false
 	}
@@ -86,7 +87,7 @@ def setInfo(String app_url, String id) {
 def setStatus(data){
 	log.debug data
     
-    sendEvent(name: "switch", value: (data["1"] ? "on" : "off"))
+    sendEvent(name: "switch", value: (data[powerIDX.toString()] ? "on" : "off"))
     
     if(meterIDX > 0){
     	sendEvent(name:"power", value: data[meterIDX.toString()] / 10)
@@ -101,12 +102,12 @@ def setStatus(data){
 
 def on(){
 	log.debug "on"
-    processCommand("power", "on", "1")
+    processCommand("power", "on", powerIDX.toString())
 }
 
 def off(){
 	log.debug "off"
-    processCommand("power", "off", "1")
+    processCommand("power", "off", powerIDX.toString())
 }
 
 def timer(data, second){
