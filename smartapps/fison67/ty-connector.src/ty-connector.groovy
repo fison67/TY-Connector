@@ -181,6 +181,12 @@ def addDevice(){
         case "power-strip":
         	dth = "Tuya Power Strip"
         	break
+        case "plug-default":
+        	dth = "Tuya Plug"
+        	break
+        case "plug-color":
+        	dth = "Tuya Plug Color"
+        	break
         }
         try{
             def childDevice = addChildDevice("fison67", dth, dni, location.hubs[0].id, [
