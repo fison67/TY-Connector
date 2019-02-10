@@ -33,6 +33,7 @@ metadata {
 	definition (name: "Tuya Plug Color", namespace: "fison67", author: "fison67") {
         capability "Switch"		
         capability "Outlet"
+		capability "Color Control"
         capability "Power Meter"
         capability "Energy Meter"
         capability "Refresh"
@@ -51,6 +52,7 @@ metadata {
 
 	preferences {
         input name: "powerIDX", title:"Power Index" , type: "number", required: false, defaultValue: 1
+        input name: "colorIDX", title:"Color Index" , type: "number", required: false, defaultValue: 5
         input name: "meterIDX", title:"Meter Index" , type: "number", required: false
         input name: "energyIDX", title:"Energy Index" , type: "number", required: false
         input name: "ledIDX", title:"LED Index" , type: "number", required: false
@@ -69,6 +71,14 @@ metadata {
             
             tileAttribute("device.lastCheckin", key: "SECONDARY_CONTROL") {
     			attributeState("default", label:'Updated: ${currentValue}',icon: "st.Health & Wellness.health9")
+            }
+            
+            tileAttribute ("device.level", key: "SLIDER_CONTROL") {
+                attributeState "level", action:"switch level.setLevel"
+            }
+            
+            tileAttribute ("device.color", key: "COLOR_CONTROL") {
+                attributeState "color", action:"setColor"
             }
 		}
         
@@ -125,11 +135,23 @@ def setStatus(data){
     	sendEvent(name:"led", value: (data[ledIDX.toString()] ? "on" : "off"))
     }
     if(timerIDX > 0){
-    	sendEvent(name:"led", value: (data[ledIDX.toString()] ? "on" : "off"))
+    	def timeStr = msToTime(data[timerIDX.toString()])
+    	sendEvent(name:"leftTime", value: "${timeStr}", displayed: false)
+    	sendEvent(name:"time", value: Math.round(data/60), displayed: false)
     }
   
     def now = new Date().format("yyyy-MM-dd HH:mm:ss", location.timeZone)
     sendEvent(name: "lastCheckin", value: now, displayed: false)
+}
+
+def setColor(color){
+	log.debug "setColor >> ${color.hex}"
+    processCommand("color", color.hex, colorIDX.toString())
+}
+
+def setLevel(brightness){
+	log.debug "setLevel >> ${brightness}"
+    processCommand("brightness", brightness, colorIDX.toString())
 }
 
 def on(){
@@ -153,7 +175,7 @@ def ledOff(){
 }
 
 def setTimer(second){
-	log.debug "child Timer >> ${second} second"
+	log.debug "setTimer >> ${second} second"
     processCommand("timer", second, timerIDX.toString())
 }
 
@@ -202,4 +224,16 @@ def makeCommand(body){
         "body":body
     ]
     return options
+}
+
+def msToTime(duration) {
+    def seconds = (duration%60).intValue()
+    def minutes = ((duration/60).intValue() % 60).intValue()
+    def hours = ( (duration/(60*60)).intValue() %24).intValue()
+
+    hours = (hours < 10) ? "0" + hours : hours
+    minutes = (minutes < 10) ? "0" + minutes : minutes
+    seconds = (seconds < 10) ? "0" + seconds : seconds
+
+    return hours + ":" + minutes + ":" + seconds
 }
