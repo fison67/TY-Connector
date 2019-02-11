@@ -12,6 +12,15 @@ You don't have to do anything to add Tuya devices in SmartThings IDE.
 fison67/ty-connector:0.0.1</br>
 fison67/ty-connector-rasp:0.0.1</br>
 
+## Support Type
+Smart Power Strip<br/>
+Smart Plug<br/>
+
+## Prerequisites
+* SmartThings account, Tuya account
+* Local server (Synology NAS, Raspberry Pi, Linux Server) with Docker installed
+* Tuya Device id, key ( Take it from packet on Android )
+
 ## Donation
 If this project helps you, you can give me a cup of coffee<br/>
 
