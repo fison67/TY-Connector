@@ -1,5 +1,5 @@
 /**
- *  TY Connector (v.0.0.1)
+ *  TY Connector (v.0.0.2)
  *
  * MIT License
  *
@@ -186,6 +186,9 @@ def addDevice(){
         	break
         case "plug-color":
         	dth = "Tuya Plug Color"
+        	break
+        case "switch":
+        	dth = "Tuya Switch"
         	break
         }
         try{
