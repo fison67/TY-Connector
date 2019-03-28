@@ -65,8 +65,20 @@ sudo mkdir /docker
 sudo mkdir /docker/ty-connector
 sudo chown -R pi:pi /docker
 docker pull fison67/ty-connector-rasp:0.0.1
-docker run -d --restart=always -v /docker/ty-connector:/config --name=ty-connector-rasp --net=host fison67/ty-connector-rasp:0.0.1
+docker run -d --restart=always -v /docker/ty-connector:/config -v /etc/localtime:/etc/localtime:ro --name=ty-connector-rasp --net=host fison67/ty-connector-rasp:0.0.1
 ```
+
+### Linux x86 x64
+
+> Docker must be installed and running before continuing the installation.
+
+```
+sudo mkdir /docker
+sudo mkdir /docker/ty-connector
+docker pull fison67/ty-connector:0.0.1
+docker run -d --restart=always -v /docker/ty-connector:/config -v /etc/localtime:/etc/localtime:ro --name=ty-connector --net=host fison67/ty-connector:0.0.1
+```
+
 
 #### TY Connector configuration
 ```
@@ -118,7 +130,7 @@ Click New SmartApp
 Click From Code
 Copy content of ty-connector.groovy & Paste
 Click Create
-Click My SmartApps & Edit properties (Mi Connector)
+Click My SmartApps & Edit properties (TY Connector)
 Enable OAuth
 Update Click
 ```
