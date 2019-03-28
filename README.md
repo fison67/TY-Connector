@@ -34,12 +34,14 @@ If this project helps you, you can give me a cup of coffee<br/>
 ### Take a localkey, devid, ip
 ```
 Install a Packet Capture app on Android
+https://play.google.com/store/apps/details?id=app.greyshirts.sslcapture&hl=ko
 If you capture a packet, you can get these information. [ devid, localkey, ip ]
 ```
 ![total](./imgs/tuya-packet-capture.jpg)
 <br/>
 #### How to use app
 https://www.lynda.com/Android-tutorials/Capturing-packets-your-mobile-app/614303/635544-4.html
+<br/><br/>
 
 ### Docker
 
