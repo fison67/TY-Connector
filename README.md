@@ -168,6 +168,15 @@ Step 3 and 4 are only needed if the repo has not been added earlier (e.g. in the
 
 <br/><br/>
 
+## Troubleshooting
+
+### No update from device
+> If data can not be polled from the device:
+1. Don't use a app anymore as Tuya or SmartLife.
+   Cuz this TY Connector is working locally. It cann't be work together at same time.
+
+
+
 # Library
 - https://github.com/codetheweb/tuyapi
 
