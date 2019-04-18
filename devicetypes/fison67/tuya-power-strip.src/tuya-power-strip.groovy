@@ -40,34 +40,7 @@ metadata {
 
 	simulator { }
 
-	preferences {
-        
-	}
-    
-	tiles {
-		multiAttributeTile(name:"switch", type: "generic", width: 6, height: 4, canChangeIcon: true){
-			tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
-                attributeState "on", label:'${name}', action:"off", icon:"https://github.com/fison67/mi_connector/blob/master/icons/powerStrip_on.png?raw=true", backgroundColor:"#00a0dc", nextState:"turningOff"
-                attributeState "off", label:'${name}', action:"on", icon:"https://github.com/fison67/mi_connector/blob/master/icons/powerStrip_off.png?raw=true", backgroundColor:"#ffffff", nextState:"turningOn"
-                
-                attributeState "turningOn", label:'${name}', action:"off", icon:"https://github.com/fison67/mi_connector/blob/master/icons/powerStrip_on.png?raw=true", backgroundColor:"#00a0dc", nextState:"turningOff"
-                attributeState "turningOff", label:'${name}', action:"on", icon:"https://github.com/fison67/mi_connector/blob/master/icons/powerStrip_off.png?raw=true", backgroundColor:"#ffffff", nextState:"turningOn"
-			}
-            
-            tileAttribute("device.lastCheckin", key: "SECONDARY_CONTROL") {
-    			attributeState("default", label:'Updated: ${currentValue}',icon: "st.Health & Wellness.health9")
-            }
-		}
-        
-        childDeviceTile("child-1", "child-1", height: 1, width: 6)
-        childDeviceTile("child-2", "child-2", height: 1, width: 6)
-        childDeviceTile("child-3", "child-3", height: 1, width: 6)
-        childDeviceTile("child-4", "child-4", height: 1, width: 6)
-        childDeviceTile("child-usb", "child-usb", height: 1, width: 6)
-        
-        main(["switch"])
-  		details(["switch", "child-1", "child-2", "child-3", "child-4", "child-usb"])
-	}
+	preferences { }
 }
 
 // parse events into attributes
@@ -85,14 +58,15 @@ def installChild(data){
     for(def i=0; i<data.count; i++){
         def label = data.name + " #" + (i+1) 
         def componentName = "child-" + (i+1)
-        def childDevice =  addChildDevice("Tuya Power Strip Child", ("tuya-connector-" + state.id  + "-" + (i+1)) , null, [completedSetup: true, label: label, componentName: componentName, componentLabel: componentName, isComponent: false])
+		def dni =  ("tuya-connector-" + state.id  + "-" + (i+1))
+        def childDevice =  addChildDevice("Tuya Power Strip Child", dni, [completedSetup: true, label: label, componentName: componentName, componentLabel: componentName, isComponent: false])
         childDevice.setID((i+1).toString())
     }
     
     if(data.usb){
     	def label = data.name + " # USB"
         def componentName = "child-usb"
-        def childDevice =  addChildDevice("Tuya Power Strip Child", "tuya-connector-" + state.id + "-7" , null, [completedSetup: true, label: label, componentName: componentName, componentLabel: "child-usb", isComponent: false])
+        def childDevice =  addChildDevice("Tuya Power Strip Child", "tuya-connector-" + state.id + "-7" , [completedSetup: true, label: label, componentName: componentName, componentLabel: "child-usb", isComponent: false])
         childDevice.setID("7")
     }
     state.count = data.count
@@ -162,7 +136,7 @@ def processCommand(cmd, data, idx){
     sendCommand(options, null)
 }
 
-def callback(physicalgraph.device.HubResponse hubResponse){
+def callback(hubitat.device.HubResponse hubResponse){
 	def msg
     try {
         msg = parseLanMessage(hubResponse.description)
@@ -177,7 +151,7 @@ def refresh(){}
 def updated(){}
 
 def sendCommand(options, _callback){
-	def myhubAction = new physicalgraph.device.HubAction(options, null, [callback: _callback])
+	def myhubAction = new hubitat.device.HubAction(options, null, [callback: _callback])
     sendHubCommand(myhubAction)
 }
 
