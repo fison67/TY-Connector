@@ -41,48 +41,6 @@ metadata {
 
 	preferences { }
     
-	tiles {
-		multiAttributeTile(name:"switch", type: "generic", width: 6, height: 4, canChangeIcon: true){
-			tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
-                attributeState "on", label:'${name}', action:"off", icon:"https://github.com/fison67/mi_connector/blob/master/icons/powerStrip_on.png?raw=true", backgroundColor:"#00a0dc", nextState:"turningOff"
-                attributeState "off", label:'${name}', action:"on", icon:"https://github.com/fison67/mi_connector/blob/master/icons/powerStrip_off.png?raw=true", backgroundColor:"#ffffff", nextState:"turningOn"
-                
-                attributeState "turningOn", label:'${name}', action:"off", icon:"https://github.com/fison67/mi_connector/blob/master/icons/powerStrip_on.png?raw=true", backgroundColor:"#00a0dc", nextState:"turningOff"
-                attributeState "turningOff", label:'${name}', action:"on", icon:"https://github.com/fison67/mi_connector/blob/master/icons/powerStrip_off.png?raw=true", backgroundColor:"#ffffff", nextState:"turningOn"
-			}
-            
-            tileAttribute("device.lastCheckin", key: "SECONDARY_CONTROL") {
-    			attributeState("default", label:'Updated: ${currentValue}',icon: "st.Health & Wellness.health9")
-            }
-		}
-        valueTile("lastOn_label", "", decoration: "flat") {
-            state "default", label:'Last\nOn'
-        }
-        valueTile("lastOn", "device.lastOn", decoration: "flat", width: 3, height: 1) {
-            state "default", label:'${currentValue}'
-        }
-        standardTile("refresh", "device.refresh", inactiveLabel: false, decoration: "flat", width: 2, height: 2) {
-            state "default", label:""
-        }
-        valueTile("lastOff_label", "", decoration: "flat") {
-            state "default", label:'Last\nOff'
-        }
-        valueTile("lastOff", "device.lastOff", decoration: "flat", width: 3, height: 1) {
-            state "default", label:'${currentValue}'
-        }
-        valueTile("timer_label", "device.leftTime", decoration: "flat", width: 4, height: 1) {
-            state "default", label:'Set a Timer\n${currentValue}'
-        }
-        controlTile("time", "device.time", "slider", height: 1, width: 1, range:"(0..120)") {
-	    	state "time", action:"setTimer"
-		}
-        standardTile("tiemr0", "device.timeRemaining") {
-			state "default", label: "OFF", action: "stop", icon:"st.Health & Wellness.health7", backgroundColor:"#c7bbc9"
-		}
-        main(["switch"])        
-		details(["switch", "lastOn_label", "lastOn", "refresh", "lastOff_label", "lastOff", "timer_label", "time", "tiemr0"])
-       
-	}
 }
 
 // parse events into attributes
