@@ -58,55 +58,6 @@ metadata {
         input name: "ledIDX", title:"LED Index" , type: "number", required: false
         input name: "timerIDX", title:"Timer Index" , type: "number", required: false
 	}
-    
-	tiles {
-		multiAttributeTile(name:"switch", type: "generic", width: 6, height: 4, canChangeIcon: true){
-			tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
-                attributeState "on", label:'${name}', action:"off", icon:"https://github.com/fison67/DW-Connector/blob/master/icons/dawon-on.png?raw=true", backgroundColor:"#00a0dc", nextState:"turningOff"
-                attributeState "off", label:'${name}', action:"on", icon:"https://github.com/fison67/DW-Connector/blob/master/icons/dawon-off.png?raw=true", backgroundColor:"#ffffff", nextState:"turningOn"
-                
-                attributeState "turningOn", label:'${name}', action:"off", icon:"https://github.com/fison67/DW-Connector/blob/master/icons/dawon-on.png?raw=true", backgroundColor:"#00a0dc", nextState:"turningOff"
-                attributeState "turningOff", label:'${name}', action:"on", icon:"https://github.com/fison67/DW-Connector/blob/master/icons/dawon-off.png?raw=true", backgroundColor:"#ffffff", nextState:"turningOn"
-			}
-            
-            tileAttribute("device.lastCheckin", key: "SECONDARY_CONTROL") {
-    			attributeState("default", label:'Updated: ${currentValue}',icon: "st.Health & Wellness.health9")
-            }
-            
-            tileAttribute ("device.level", key: "SLIDER_CONTROL") {
-                attributeState "level", action:"switch level.setLevel"
-            }
-            
-            tileAttribute ("device.color", key: "COLOR_CONTROL") {
-                attributeState "color", action:"setColor"
-            }
-		}
-        
-        standardTile("led", "device.led", inactiveLabel: false, width: 2, height: 2, canChangeIcon: true) {
-            state "on", label:'${name}', action:"ledOff", backgroundColor:"#00a0dc", nextState:"turningOff"
-            state "off", label:'${name}', action:"ledOn", backgroundColor:"#ffffff", nextState:"turningOn"
-             
-        	state "turningOn", label:'....', action:"ledOff", backgroundColor:"#00a0dc", nextState:"turningOff"
-            state "turningOff", label:'....', action:"ledOn", backgroundColor:"#ffffff", nextState:"turningOn"
-        }
-        valueTile("power", "device.power", width:2, height:2, inactiveLabel: false, decoration: "flat" ) {
-        	state "power", label: 'Current\n${currentValue} w', defaultState: true
-		}    
-        valueTile("energy", "device.energy", width:2, height:2, inactiveLabel: false, decoration: "flat" ) {
-        	state "energy", label: 'Total\n${currentValue}kWh', defaultState: true
-        }
-        valueTile("timer_label", "device.leftTime", decoration: "flat", width: 4, height: 1) {
-            state "default", label:'Set a Timer\n${currentValue}'
-        }
-        controlTile("time", "device.time", "slider", height: 1, width: 1, range:"(0..120)") {
-	    	state "time", action:"setTimer"
-		}
-        standardTile("tiemr0", "device.timeRemaining") {
-			state "default", label: "OFF", action: "stop", icon:"st.Health & Wellness.health7", backgroundColor:"#c7bbc9"
-		}
-        main(["switch"])
-  		details(["switch", "led", "power", "energy", "timer_label", "time", "tiemr0"])
-	}
 }
 
 // parse events into attributes
@@ -194,7 +145,7 @@ def processCommand(cmd, data, idx){
     sendCommand(options, null)
 }
 
-def callback(physicalgraph.device.HubResponse hubResponse){
+def callback(hubitat.device.HubResponse hubResponse){
 	def msg
     try {
         msg = parseLanMessage(hubResponse.description)
@@ -209,7 +160,7 @@ def refresh(){}
 def updated(){}
 
 def sendCommand(options, _callback){
-	def myhubAction = new physicalgraph.device.HubAction(options, null, [callback: _callback])
+	def myhubAction = new hubitat.device.HubAction(options, null, [callback: _callback])
     sendHubCommand(myhubAction)
 }
 
