@@ -43,31 +43,6 @@ metadata {
         
 	}
     
-	tiles {
-		multiAttributeTile(name:"switch", type: "generic", width: 6, height: 4, canChangeIcon: true){
-			tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
-                attributeState "on", label:'${name}', action:"off", icon:"st.switches.light.on", backgroundColor:"#00a0dc", nextState:"turningOff"
-                attributeState "off", label:'${name}', action:"on", icon:"st.switches.light.off", backgroundColor:"#ffffff", nextState:"turningOn"
-                
-                attributeState "turningOn", label:'${name}', action:"off", icon:"st.switches.light.on", backgroundColor:"#00a0dc", nextState:"turningOff"
-                attributeState "turningOff", label:'${name}', action:"on", icon:"st.switches.light.off", backgroundColor:"#ffffff", nextState:"turningOn"
-			}
-            
-            tileAttribute("device.lastCheckin", key: "SECONDARY_CONTROL") {
-    			attributeState("default", label:'Updated: ${currentValue}',icon: "st.Health & Wellness.health9")
-            }
-		}
-        
-        childDeviceTile("child-1", "child-1", height: 1, width: 6)
-        childDeviceTile("child-2", "child-2", height: 1, width: 6)
-        childDeviceTile("child-3", "child-3", height: 1, width: 6)
-        childDeviceTile("child-4", "child-4", height: 1, width: 6)
-        childDeviceTile("child-5", "child-5", height: 1, width: 6)
-        childDeviceTile("child-6", "child-6", height: 1, width: 6)
-        
-        main(["switch"])
-  		details(["switch", "child-1", "child-2", "child-3", "child-4", "child-5", "child-6"])
-	}
 }
 
 // parse events into attributes
@@ -144,7 +119,7 @@ def processCommand(cmd, data, idx){
     sendCommand(options, null)
 }
 
-def callback(physicalgraph.device.HubResponse hubResponse){
+def callback(hubitat.device.HubResponse hubResponse){
 	def msg
     try {
         msg = parseLanMessage(hubResponse.description)
@@ -159,7 +134,7 @@ def refresh(){}
 def updated(){}
 
 def sendCommand(options, _callback){
-	def myhubAction = new physicalgraph.device.HubAction(options, null, [callback: _callback])
+	def myhubAction = new hubitat.device.HubAction(options, null, [callback: _callback])
     sendHubCommand(myhubAction)
 }
 
