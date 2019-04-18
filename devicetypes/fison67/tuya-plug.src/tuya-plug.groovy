@@ -48,29 +48,6 @@ metadata {
         input name: "energyIDX", title:"Energy Index" , type: "number", required: false
 	}
     
-	tiles {
-		multiAttributeTile(name:"switch", type: "generic", width: 6, height: 4, canChangeIcon: true){
-			tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
-                attributeState "on", label:'${name}', action:"off", icon:"https://github.com/fison67/DW-Connector/blob/master/icons/dawon-on.png?raw=true", backgroundColor:"#00a0dc", nextState:"turningOff"
-                attributeState "off", label:'${name}', action:"on", icon:"https://github.com/fison67/DW-Connector/blob/master/icons/dawon-off.png?raw=true", backgroundColor:"#ffffff", nextState:"turningOn"
-                
-                attributeState "turningOn", label:'${name}', action:"off", icon:"https://github.com/fison67/DW-Connector/blob/master/icons/dawon-on.png?raw=true", backgroundColor:"#00a0dc", nextState:"turningOff"
-                attributeState "turningOff", label:'${name}', action:"on", icon:"https://github.com/fison67/DW-Connector/blob/master/icons/dawon-off.png?raw=true", backgroundColor:"#ffffff", nextState:"turningOn"
-			}
-            
-            tileAttribute("device.lastCheckin", key: "SECONDARY_CONTROL") {
-    			attributeState("default", label:'Updated: ${currentValue}',icon: "st.Health & Wellness.health9")
-            }
-		}
-        valueTile("power", "device.power", width:2, height:2, inactiveLabel: false, decoration: "flat" ) {
-        	state "power", label: 'Current\n${currentValue} w', defaultState: true
-		}    
-        valueTile("energy", "device.energy", width:2, height:2, inactiveLabel: false, decoration: "flat" ) {
-        	state "energy", label: 'Total\n${currentValue}kWh', defaultState: true
-        }
-        main(["switch"])
-  		details(["switch", "power", "energy"])
-	}
 }
 
 // parse events into attributes
@@ -126,7 +103,7 @@ def processCommand(cmd, data, idx){
     sendCommand(options, null)
 }
 
-def callback(physicalgraph.device.HubResponse hubResponse){
+def callback(hubitat.device.HubResponse hubResponse){
 	def msg
     try {
         msg = parseLanMessage(hubResponse.description)
@@ -141,7 +118,7 @@ def refresh(){}
 def updated(){}
 
 def sendCommand(options, _callback){
-	def myhubAction = new physicalgraph.device.HubAction(options, null, [callback: _callback])
+	def myhubAction = new hubitat.device.HubAction(options, null, [callback: _callback])
     sendHubCommand(myhubAction)
 }
 
