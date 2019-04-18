@@ -59,7 +59,7 @@ def mainPage() {
         
        	section() {
             paragraph "View this SmartApp's configuration to use it in other places."
-            href url:"${apiServerUrl("/api/smartapps/installations/${app.id}/config?access_token=${state.accessToken}")}", style:"embedded", required:false, title:"Config", description:"Tap, select, copy, then click \"Done\""
+            href url:"${localApiServerUrl("${app.id}/config?access_token=${state.accessToken}")}", style:"embedded", required:false, title:"Config", description:"Tap, select, copy, then click \"Done\""
        	}
     }
 }
@@ -120,17 +120,17 @@ def initialize() {
             "Content-Type": "application/json"
         ],
         "body":[
-            "app_url":"${apiServerUrl}/api/smartapps/installations/",
+            "app_url":localApiServerUrl(""),
             "app_id":app.id,
             "access_token":state.accessToken
         ]
     ]
     
-    def myhubAction = new physicalgraph.device.HubAction(options, null, [callback: null])
+    def myhubAction = new hubitat.device.HubAction(options, null, [callback: null])
     sendHubCommand(myhubAction)
 }
 
-def dataCallback(physicalgraph.device.HubResponse hubResponse) {
+def dataCallback(hubitat.device.HubResponse hubResponse) {
     def msg, json, status
     try {
         msg = parseLanMessage(hubResponse.description)
@@ -151,7 +151,7 @@ def getDataList(){
             "Content-Type": "application/json"
         ]
     ]
-    def myhubAction = new physicalgraph.device.HubAction(options, null, [callback: dataCallback])
+    def myhubAction = new hubitat.device.HubAction(options, null, [callback: dataCallback])
     sendHubCommand(myhubAction)
 }
 
@@ -246,7 +246,7 @@ def renderConfig() {
             [
                 platform: "SmartThings Tuya Connector",
                 name: "Tuya Connector",
-                app_url: apiServerUrl("/api/smartapps/installations/"),
+                app_url: localApiServerUrl(""),
                 app_id: app.id,
                 access_token:  state.accessToken
             ]
@@ -258,16 +258,10 @@ def renderConfig() {
 }
 
 mappings {
-    if (!params.access_token || (params.access_token && params.access_token != state.accessToken)) {
-        path("/config")                         { action: [GET: "authError"] }
-        path("/list")                         	{ action: [GET: "authError"]  }
-        path("/update")                         { action: [POST: "authError"]  }
-        path("/add")                         	{ action: [POST: "authError"]  }
-
-    } else {
-        path("/config")                         { action: [GET: "renderConfig"]  }
-        path("/list")                         	{ action: [GET: "getDeviceList"]  }
-        path("/update")                         { action: [POST: "updateDevice"]  }
-        path("/add")                         	{ action: [POST: "addDevice"]  }
-    }
+ 
+	path("/config")                         { action: [GET: "renderConfig"]  }
+	path("/list")                         	{ action: [GET: "getDeviceList"]  }
+	path("/update")                         { action: [POST: "updateDevice"]  }
+	path("/add")                         	{ action: [POST: "addDevice"]  }
+    
 }
