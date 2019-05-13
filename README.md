@@ -31,11 +31,12 @@ If this project helps you, you can give me a cup of coffee<br/>
 
 ## Install
 
-### Take a localkey, devid, ip
+### Take a localkey, devid, local ip address
 ```
 Install a Packet Capture app on Android
 https://play.google.com/store/apps/details?id=app.greyshirts.sslcapture&hl=ko
-If you capture a packet, you can get these information. [ devid, localkey, ip ]
+If you capture a packet, you can get these information. [ devid, localkey ]
+You have to get a local ip address from router.
 ```
 ![total](./imgs/tuya-packet-capture.jpg)
 <br/>
