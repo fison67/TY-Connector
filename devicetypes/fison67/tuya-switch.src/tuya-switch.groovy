@@ -1,5 +1,5 @@
 /**
- *  Tuya Switch (v.0.0.1)
+ *  Tuya Switch (v.0.0.2)
  *
  * MIT License
  *
@@ -57,10 +57,12 @@ def setInfo(String app_url, String id) {
 }
 
 def installChild(data){
+    log.debug data
     for(def i=0; i<data.count; i++){
         def label = data.name + " #" + (i+1) 
         def componentName = "child-" + (i+1)
-        def childDevice =  addChildDevice("Tuya Switch Child", ("tuya-connector-" + state.id  + "-" + (i+1)) , null, [completedSetup: true, label: label, componentName: componentName, componentLabel: componentName, isComponent: false])
+        def dni = "ty-connector-" + state.id  + "-" + (i+1)
+        def childDevice =  addChildDevice("fison67", "Tuya Switch Child", dni, [completedSetup: true, label: label, componentName: componentName, componentLabel: componentName, isComponent: false])
         childDevice.setID((i+1).toString())
     }
     
