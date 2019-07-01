@@ -175,7 +175,9 @@ Step 3 and 4 are only needed if the repo has not been added earlier (e.g. in the
 > If data can not be polled from the device:
 1. Don't use a app anymore as Tuya or SmartLife.
    Cuz this TY Connector is working locally. It cann't be work together at same time.
-
+   
+> If device's MCU firmware version is higher than 1.0.4:
+1. Select a version 3.3(Not 3.1) on device add page.
 
 
 # Library
