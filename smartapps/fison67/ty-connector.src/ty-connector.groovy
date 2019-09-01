@@ -1,5 +1,5 @@
 /**
- *  TY Connector (v.0.0.3)
+ *  TY Connector (v.0.0.4)
  *
  * MIT License
  *
@@ -192,6 +192,9 @@ def addDevice(){
         	break
         case "color-light":
         	dth = "Tuya Color Light"
+        	break
+        case "curtain":
+        	dth = "Tuya Curtain"
         	break
         }
         try{
