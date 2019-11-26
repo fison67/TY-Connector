@@ -1,5 +1,5 @@
 /**
- *  TY Connector (v.0.0.4)
+ *  TY Connector (v.0.0.5)
  *
  * MIT License
  *
@@ -53,7 +53,7 @@ preferences {
 def mainPage() {
 	 dynamicPage(name: "mainPage", title: "Tuya Connector", nextPage: null, uninstall: true, install: true) {
    		section("Request New Devices"){
-        	input "address", "string", title: "Server address", required: true, description:"IP:Port. ex)192.168.0.100:30040"
+        	input "address", "text", title: "Server address", required: true, description:"IP:Port. ex)192.168.0.100:30040"
         	href url:"http://${settings.address}", style:"embedded", required:false, title:"Local Management", description:"This makes you easy to setup"
         }
         
