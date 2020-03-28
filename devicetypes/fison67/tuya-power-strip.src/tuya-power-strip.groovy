@@ -1,5 +1,5 @@
 /**
- *  Tuya Power Strip (v.0.0.1)
+ *  Tuya Power Strip (v.0.0.2)
  *
  * MIT License
  *
@@ -85,14 +85,14 @@ def installChild(data){
     for(def i=0; i<data.count; i++){
         def label = data.name + " #" + (i+1) 
         def componentName = "child-" + (i+1)
-        def childDevice =  addChildDevice("Tuya Power Strip Child", ("tuya-connector-" + state.id  + "-" + (i+1)) , null, [completedSetup: true, label: label, componentName: componentName, componentLabel: componentName, isComponent: false])
+        def childDevice =  addChildDevice("Tuya Power Strip Child", ("tuya-connector-" + state.id  + "-" + (i+1)) , null, [completedSetup: true, label: label, isComponent: false])
         childDevice.setID((i+1).toString())
     }
     
     if(data.usb){
     	def label = data.name + " # USB"
         def componentName = "child-usb"
-        def childDevice =  addChildDevice("Tuya Power Strip Child", "tuya-connector-" + state.id + "-7" , null, [completedSetup: true, label: label, componentName: componentName, componentLabel: "child-usb", isComponent: false])
+        def childDevice =  addChildDevice("Tuya Power Strip Child", "tuya-connector-" + state.id + "-7" , null, [completedSetup: true, label: label, isComponent: false])
         childDevice.setID("7")
     }
     state.count = data.count
