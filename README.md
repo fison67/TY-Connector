@@ -9,8 +9,8 @@ If Tuya Connector is installed, virtual devices are registered automatically by 
 You don't have to do anything to add Tuya devices in SmartThings IDE.
 
 ## Docker
-fison67/ty-connector:0.0.1</br>
-fison67/ty-connector-rasp:0.0.1</br>
+fison67/ty-connector:0.0.3</br>
+fison67/ty-connector-rasp:0.0.3</br>
 
 ## Support Type
 Smart Power Strip<br/>
@@ -71,8 +71,8 @@ https://www.lynda.com/Android-tutorials/Capturing-packets-your-mobile-app/614303
 sudo mkdir /docker
 sudo mkdir /docker/ty-connector
 sudo chown -R pi:pi /docker
-docker pull fison67/ty-connector-rasp:0.0.1
-docker run -d --restart=always -v /docker/ty-connector:/config -v /etc/localtime:/etc/localtime:ro --name=ty-connector-rasp --net=host fison67/ty-connector-rasp:0.0.1
+docker pull fison67/ty-connector-rasp:0.0.3
+docker run -d --restart=always -v /docker/ty-connector:/config -v /etc/localtime:/etc/localtime:ro --name=ty-connector-rasp --net=host fison67/ty-connector-rasp:0.0.3
 ```
 
 ### Linux x86 x64
@@ -82,8 +82,8 @@ docker run -d --restart=always -v /docker/ty-connector:/config -v /etc/localtime
 ```
 sudo mkdir /docker
 sudo mkdir /docker/ty-connector
-docker pull fison67/ty-connector:0.0.1
-docker run -d --restart=always -v /docker/ty-connector:/config -v /etc/localtime:/etc/localtime:ro --name=ty-connector --net=host fison67/ty-connector:0.0.1
+docker pull fison67/ty-connector:0.0.3
+docker run -d --restart=always -v /docker/ty-connector:/config -v /etc/localtime:/etc/localtime:ro --name=ty-connector --net=host fison67/ty-connector:0.0.3
 ```
 
 
