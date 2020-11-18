@@ -1,5 +1,5 @@
 /**
- *  TY Connector (v.0.0.5)
+ *  TY Connector (v.0.0.6)
  *
  * MIT License
  *
@@ -195,6 +195,9 @@ def addDevice(){
         	break
         case "curtain":
         	dth = "Tuya Curtain"
+        	break
+        case "thermostat":
+        	dth = "Tuya Thermostat"
         	break
         }
         try{
